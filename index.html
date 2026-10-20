@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Chúc mừng 20/10 · Gửi những bông hoa của MindX</title>
+  <meta name="description" content="Lời chúc Ngày Phụ nữ Việt Nam 20/10 từ cả nhà MindX gửi đến những người phụ nữ tuyệt vời.">
+  <meta name="theme-color" content="#F7C6D0">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="vi_VN">
+  <meta property="og:site_name" content="MindX">
+  <meta property="og:title" content="Chúc mừng Ngày Phụ nữ Việt Nam 20/10 💐">
+  <meta property="og:description" content="MindX gửi tặng những bông hoa tuyệt vời nhất một lá thư nhỏ đầy yêu thương.">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Chúc mừng Ngày Phụ nữ Việt Nam 20/10 💐">
+  <meta name="twitter:description" content="MindX gửi tặng những bông hoa tuyệt vời nhất một lá thư nhỏ đầy yêu thương.">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cg fill='%23E87A93'%3E%3Ccircle cx='32' cy='17' r='12'/%3E%3Ccircle cx='46.3' cy='27.4' r='12'/%3E%3Ccircle cx='40.8' cy='44.1' r='12'/%3E%3Ccircle cx='23.2' cy='44.1' r='12'/%3E%3Ccircle cx='17.7' cy='27.4' r='12'/%3E%3C/g%3E%3Ccircle cx='32' cy='32' r='9' fill='%23F3D18A' stroke='%23C9963B' stroke-width='2'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600&family=Dancing+Script:wght@500;700&family=Playfair+Display:ital,wght@0,500;0,700;1,500&display=swap">
+  <link rel="stylesheet" href="css/style.css">
+  <noscript>
+    <style>
+      .intro { display: none !important; }
+      body.is-locked { overflow: auto; }
+      .reveal { opacity: 1 !important; transform: none !important; }
+    </style>
+  </noscript>
+</head>
+<body class="is-locked intro-active">
+  <div class="page-bg" aria-hidden="true"></div>
+  <canvas id="petal-canvas" class="petal-canvas" aria-hidden="true"></canvas>
+
+  <section id="intro" class="intro" aria-labelledby="intro-title">
+    <div class="intro__halo" aria-hidden="true"></div>
+    <div class="envelope" aria-hidden="true">
+      <div class="envelope__back"></div>
+      <div class="envelope__letter">
+        <span class="envelope__date">20/10</span>
+        <span class="envelope__heart">♥</span>
+      </div>
+      <div class="envelope__front"></div>
+      <div class="envelope__flap"></div>
+      <div id="intro-stamp" class="envelope__stamp" hidden></div>
+      <div class="envelope__seal">
+        <svg viewBox="0 0 24 24" width="22" height="22"><path d="M12 21s-7.5-4.6-9.6-9.2C.9 8.4 3 4.5 6.7 4.5c2.2 0 3.8 1.3 5.3 3.2 1.5-1.9 3.1-3.2 5.3-3.2 3.7 0 5.8 3.9 4.3 7.3C19.5 16.4 12 21 12 21z" fill="#FFE9EC"/></svg>
+      </div>
+    </div>
+    <p class="intro__eyebrow">Một món quà nhỏ nhân ngày 20/10</p>
+    <h2 id="intro-title" class="intro__title">Gửi những bông hoa của MindX</h2>
+    <div class="intro__actions">
+      <button type="button" id="open-gift" class="btn btn--primary btn--large">
+        <span aria-hidden="true">🎁</span> Mở quà
+      </button>
+      <button type="button" id="intro-music" class="chip" aria-pressed="true">
+        <span class="chip__icon" aria-hidden="true">♪</span> Kèm bài hát “You'll Be In My Heart”
+      </button>
+    </div>
+  </section>
+
+  <main id="main">
+    <section id="section-hero" class="hero" aria-labelledby="hero-title">
+      <div class="hero__blob hero__blob--one parallax" data-speed="0.12" aria-hidden="true"></div>
+      <div class="hero__blob hero__blob--two parallax" data-speed="-0.08" aria-hidden="true"></div>
+      <div class="hero__inner">
+        <div class="hero__text">
+          <p class="hero__eyebrow">MindX · 20.10.2026</p>
+          <h1 id="hero-title" class="hero__title" tabindex="-1">
+            <span class="hero__line hero__line--lead">Chúc mừng</span>
+            <span class="hero__line hero__line--script shimmer"><span class="nowrap">Ngày Phụ nữ</span> <span class="nowrap">Việt Nam</span></span>
+            <span class="hero__line hero__line--date">20/10</span>
+          </h1>
+          <p class="hero__typed">
+            <span class="visually-hidden">Gửi những người phụ nữ tuyệt vời của MindX</span>
+            <span id="hero-typed" aria-hidden="true"></span><span class="caret" aria-hidden="true"></span>
+          </p>
+          <p id="hero-personal" class="hero__personal" hidden>Dành riêng cho <span id="hero-personal-name" class="hero__personal-name"></span></p>
+          <div class="hero__actions">
+            <button type="button" class="btn btn--primary" data-scroll-to="section-garden">Xem vườn hoa</button>
+            <button type="button" id="hero-letter" class="btn btn--ghost" hidden>Mở lại thư của bạn</button>
+          </div>
+        </div>
+        <div id="bouquet-slot" class="hero__bouquet parallax" data-speed="-0.05"></div>
+      </div>
+    </section>
+
+    <section id="section-message" class="message" aria-labelledby="message-title">
+      <div class="message__card reveal">
+        <svg class="message__ornament" viewBox="0 0 120 24" aria-hidden="true"><path d="M2 12 H46 M74 12 H118" stroke="#C9963B" stroke-width="1.2"/><path d="M60 3 C66 3 70 8 60 21 C50 8 54 3 60 3Z" fill="#E87A93"/></svg>
+        <h2 id="message-title" class="section-title">Gửi những người phụ nữ của MindX</h2>
+        <p class="reveal" style="--reveal-delay: 80ms">Hôm nay, cả nhà MindX muốn dừng lại một chút giữa những ngày bận rộn để gửi lời cảm ơn đến những người phụ nữ tuyệt vời đang cùng chúng mình đi qua mỗi ngày.</p>
+        <p class="reveal" style="--reveal-delay: 160ms">Cảm ơn các bạn vì sự tận tâm, sự kiên nhẫn và những nụ cười đã làm cho MindX trở thành một nơi thật ấm áp. Mỗi người là một bông hoa với hương sắc riêng, và chính sự khác biệt ấy đã làm nên một khu vườn rực rỡ.</p>
+        <p class="reveal" style="--reveal-delay: 240ms">Chúc các bạn một ngày 20/10 ngập tràn yêu thương, luôn được lắng nghe, được trân trọng và được là chính mình.</p>
+        <p class="message__sign reveal" style="--reveal-delay: 320ms">— Cả nhà MindX —</p>
+      </div>
+    </section>
+
+    <section id="section-garden" class="garden" aria-labelledby="garden-title">
+      <h2 id="garden-title" class="section-title reveal">Vườn hoa MindX</h2>
+      <p class="garden__hint reveal" style="--reveal-delay: 80ms">Chạm vào ảnh của mình để mở lá thư MindX dành riêng cho bạn</p>
+      <ul id="garden-list" class="garden__list"></ul>
+    </section>
+
+    <section id="section-closing" class="closing" aria-labelledby="closing-title">
+      <div class="closing__inner reveal">
+        <h2 id="closing-title" class="closing__title">Cảm ơn vì đã là một phần tuyệt vời của MindX</h2>
+        <p class="closing__sign">— Với tất cả sự trân trọng, MindX —</p>
+        <button type="button" id="random-letter" class="btn btn--ghost">Mở một lá thư ngẫu nhiên</button>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p class="footer__date">20.10.2026</p>
+    <p class="footer__note">Gửi trao bằng cả trái tim <span aria-hidden="true">♥</span> MindX</p>
+  </footer>
+
+  <dialog id="letter" class="letter" aria-labelledby="letter-name" aria-describedby="letter-wish-full">
+    <article class="letter__paper">
+      <button type="button" id="letter-close" class="letter__close" aria-label="Đóng thư">
+        <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M6 6 L18 18 M18 6 L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      </button>
+      <p class="letter__to">Gửi</p>
+      <h2 id="letter-name" class="letter__name" tabindex="-1"></h2>
+      <div id="letter-flower" class="letter__flower"></div>
+      <p class="letter__meta"><span id="letter-flower-name"></span> · <span id="letter-tagline"></span></p>
+      <p class="letter__meaning"><span class="letter__meaning-label">Ý nghĩa loài hoa:</span> <span id="letter-flower-meaning"></span></p>
+      <div class="letter__wish-box">
+        <p id="letter-wish-ghost" class="letter__wish letter__wish--ghost" aria-hidden="true"></p>
+        <p id="letter-wish" class="letter__wish letter__wish--typed" aria-hidden="true"></p>
+      </div>
+      <p id="letter-wish-full" class="visually-hidden"></p>
+      <p class="letter__sign">— Với tất cả yêu thương, MindX —</p>
+      <div class="letter__actions">
+        <button type="button" id="copy-link" class="btn btn--primary">Sao chép link riêng</button>
+        <button type="button" id="view-garden" class="btn btn--ghost">Xem cả vườn hoa</button>
+      </div>
+    </article>
+  </dialog>
+
+  <div id="music-dock" class="music-dock" hidden>
+    <button type="button" id="music-toggle" class="music-toggle" aria-pressed="false" aria-label="Bật nhạc nền" aria-describedby="music-label">
+      <svg class="music-toggle__disc" viewBox="0 0 24 24" width="30" height="30" aria-hidden="true"><circle cx="12" cy="12" r="11" fill="#3A2229"/><circle cx="12" cy="12" r="8.6" fill="none" stroke="#6B4A53" stroke-width="0.6"/><circle cx="12" cy="12" r="6.6" fill="none" stroke="#6B4A53" stroke-width="0.6"/><path d="M5.2 7.4 A8.2 8.2 0 0 1 9.6 4.2" fill="none" stroke="#FFFFFF" stroke-opacity="0.45" stroke-width="1" stroke-linecap="round"/><circle cx="12" cy="12" r="4.4" fill="#E87A93"/><circle cx="12" cy="12" r="1.2" fill="#FFF4F1"/></svg>
+      <svg class="music-toggle__slash" viewBox="0 0 24 24" width="30" height="30" aria-hidden="true"><path d="M4 4 L20 20" stroke="#FFFFFF" stroke-width="4" stroke-linecap="round"/><path d="M4 4 L20 20" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+    </button>
+    <p id="music-label" class="music-label"><span aria-hidden="true">♪ </span>You'll Be In My Heart</p>
+  </div>
+  <audio id="bg-music" src="audio/youll-be-in-my-heart.m4a" preload="metadata" loop playsinline></audio>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <canvas id="fx-canvas" class="fx-canvas" aria-hidden="true"></canvas>
+
+  <noscript>
+    <p class="noscript">Trang này cần bật JavaScript để mở quà. Chúc mừng Ngày Phụ nữ Việt Nam 20/10 từ cả nhà MindX!</p>
+  </noscript>
+
+  <script src="js/data.js" defer></script>
+  <script src="js/flowers.js" defer></script>
+  <script src="js/effects.js" defer></script>
+  <script src="js/music.js" defer></script>
+  <script src="js/main.js" defer></script>
+</body>
+</html>
