@@ -13,7 +13,6 @@
   const state = {
     recipient: null,
     introOpened: false,
-    wantsMusic: true,
     letterTrigger: null,
     letterRecipient: null,
     closingLetter: false,
@@ -31,7 +30,7 @@
 
   function cacheElements() {
     [
-      'intro', 'intro-title', 'open-gift', 'intro-music', 'main', 'hero-title', 'hero-typed',
+      'intro', 'intro-title', 'open-gift', 'main', 'hero-title', 'hero-typed',
       'hero-personal', 'hero-personal-name', 'hero-letter', 'bouquet-slot', 'garden-list',
       'letter', 'letter-close', 'letter-name', 'letter-flower', 'letter-flower-name',
       'letter-tagline', 'letter-flower-meaning', 'letter-wish', 'letter-wish-ghost', 'letter-wish-full', 'copy-link',
@@ -64,7 +63,7 @@
     elements['hero-personal-name'].textContent = recipient.name;
     elements['hero-personal'].hidden = false;
     elements['hero-letter'].hidden = false;
-    document.title = `Gửi ${recipient.name} · 20/10 MindX`;
+    document.title = `Gửi ${recipient.name} · Một lá thư nhỏ ngày 20/10`;
     showIntroStamp(recipient);
   }
 
@@ -194,7 +193,6 @@
     if (state.introOpened) return;
     state.introOpened = true;
     elements['open-gift'].disabled = true;
-    if (state.wantsMusic) app.music.start();
 
     const reduced = prefersReducedMotion();
     const envelope = elements.intro.querySelector('.envelope');
@@ -212,7 +210,6 @@
     document.body.classList.remove('is-locked', 'intro-active');
     document.body.classList.add('is-blooming');
     setPageInert(false);
-    if (app.music.isSupported()) elements['music-dock'].hidden = false;
     elements['hero-title'].focus({ preventScroll: true });
     typeHeroLine();
 
@@ -518,6 +515,10 @@
   }
 
   function updateMusicUi(playing) {
+    if (!app.music.isSupported()) {
+      elements['music-dock'].hidden = true;
+      return;
+    }
     const toggle = elements['music-toggle'];
     toggle.setAttribute('aria-pressed', String(playing));
     toggle.setAttribute('aria-label', playing ? 'Tắt nhạc nền' : 'Bật nhạc nền');
@@ -534,19 +535,11 @@
   }
 
   function setupMusic() {
-    const introChip = elements['intro-music'];
-    if (!app.music.isSupported()) {
-      state.wantsMusic = false;
-      introChip.hidden = true;
-      return;
-    }
-    app.music.prepare();
-    introChip.addEventListener('click', () => {
-      state.wantsMusic = !state.wantsMusic;
-      introChip.setAttribute('aria-pressed', String(state.wantsMusic));
-    });
+    if (!app.music.isSupported()) return;
+    elements['music-dock'].hidden = false;
     elements['music-toggle'].addEventListener('click', () => app.music.toggle());
     app.music.onChange(updateMusicUi);
+    app.music.autoplay();
   }
 
   function setupButtons() {

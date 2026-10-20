@@ -1,80 +1,65 @@
-# Verification — iteration 1 (20/10/2026)
+# Verification — iteration 3 (20/10/2026): anonymous sender + music on load
 
-All commands were actually run from `/Users/orm/Documents/Works/MX/2010` on macOS (Node v24, Chrome 155 headless, python3 http.server).
+Run from the project root (Node v24, headless Chrome, `python3 -m http.server 8765`, stopped afterwards).
 
-## Results summary
+- Wording: grep over `index.html js README.md` for `MindX gửi|, MindX —|chúng mình|chúng tôi|cả nhà|gia đình|Từ MindX|Với tất cả|gửi tặng|Kèm bài hát|tập thể` returns 0 matches. MindX now appears only as a place ("những bông hoa của MindX", "ở MindX").
+- Signatures: letter `— Từ một người luôn trân trọng bạn —`, message `— Một người giấu tên —`, closing `— Một người giấu tên, mãi trân trọng các bạn —`, footer "Gửi trao bằng cả trái tim, không cần ký tên ♥".
+- `node --check` passes on all JS and .mjs files. `check-data.mjs` passes.
+- `shoot.mjs` reports **220/220 checks passed, 0 console errors**. It covers:
+  - `no-user-gesture-required`: the song plays on load with no click (`paused === false`, `loop === true`, fade to 0.6) and keeps playing through Mở quà.
+  - Default policy: paused on load, no errors or unhandled rejections. One tap on an empty spot (mobile), a click, or a key press starts the song. The first click on the vinyl starts it and does not toggle it off.
+  - Loop: the track wraps to the start and keeps playing. The `ended` safety net also works with `loop` forced off. `http.server` has no Range support, so the end was reached by playing at 16×, not by `currentTime = duration - 1`.
+  - Pausing manually keeps the song paused after later taps and after a tab switch.
+  - The existing checks still pass: 13 photos, letters with flower and meaning, `?to=tuyet-nhu`, `?to=anh`, `?to=abc` fallback.
+- Screenshots were regenerated (plus `desktop-12-autoplay-intro`). There is no gap where the removed control was.
+- Not verified: real iOS, Android, Zalo or Messenger devices. Nobody listened to the audio.
+
+# Verification — iteration 2 (20/10/2026): real song + recipient photos
+
+Everything below was actually run from `/Users/orm/Documents/Works/MX/2010` on macOS (Node v24, Google Chrome headless, python3 http.server).
+
+## Changes covered
+
+- `audio/youll-be-in-my-heart.m4a` (moved from `You-ll-Be-in-My-Heart.m4a`, 3,922,198 B) is played by an `<audio loop playsinline preload="metadata">`. Init switches it to `preload="auto"` plus `load()`. `play()` is called synchronously inside the `Mở quà` click, with a 1.5 s fade-in to 0.6. The Web Audio synth was deleted.
+- `img/<slug>.jpg`: 13 photos renamed with `mv` (via `fs.renameSync`, NFC-normalized lookup). They show in garden cards and on the intro stamp for `?to=`. Letters still show the SVG flower plus the new "Ý nghĩa loài hoa" line.
+- Flower changes: Thu Hương went from oải hương to **hoa sữa** (`milkflower`), Lan Thanh from tulip to **hoa ngọc lan** (`magnolia`), and Lan Anh's flower is now labeled "Hoa lan hồ điệp". The unused `tulip`/`lavender` builders were removed. The bouquet now uses orchid and magnolia in their place.
+
+## Results
 
 | Check | Command | Result |
 |---|---|---|
-| JS syntax | `for f in js/*.js .agents/scripts/*.mjs; do node --check "$f"; done` | PASS: js/data.js, js/effects.js, js/flowers.js, js/main.js, js/music.js, .agents/scripts/check-data.mjs, .agents/scripts/shoot.mjs |
-| Data | `node .agents/scripts/check-data.mjs` | All data checks passed: 13 entries, exact names and slugs in order, unique slug/flower/flowerType/tagline/wish/wish opening, every wish has 3–5 sentences, 4 hex colors per palette, NFC text, `findRecipient('anh')` = Ánh, `' ANH-THU '` = Anh Thư, `'khong-ton-tai'`, `'<img src=x>'`, `null`, `''`, `undefined`, `42`, `'__proto__'`, `'constructor'` all give `null` |
-| README links | `node -e` script checking README.md has all 13 `` `?to=<slug>` `` | All 13 present |
-| Unsafe sinks | `grep -nE "innerHTML\|insertAdjacentHTML\|outerHTML\|document.write\|eval\(\|console\.log" js/*.js` | No matches |
-| Server | `python3 -m http.server 8765 --bind 127.0.0.1 --directory …` (background), `curl` gave `200` | Stopped afterward (`pgrep` finds nothing) |
-| Browser E2E | `node .agents/scripts/shoot.mjs` (headless Chrome over CDP, no npm deps) | **122/122 checks passed, 0 console errors** (exceptions, console.error/assert, Log errors and JS dialogs are all captured; nothing was filtered out) |
+| JS syntax | `for f in js/*.js .agents/scripts/*.mjs; do node --check "$f"; done` | PASS (all 7 files) |
+| Data | `node .agents/scripts/check-data.mjs` | All passed. New checks: unique `flowerMeaning`/`photo`, `photo === img/<slug>.jpg` and the file exists, meaning is an NFC sentence, an SVG builder exists for every `flowerType` |
+| Renamed files | `ls img` | Exactly 13 `[a-z-]+.jpg`, no originals left. Sizes 120–240 px, all square |
+| README | node script | All 13 `` `?to=<slug>` `` present |
+| HTTP | `curl` plus `fetch HEAD` in shoot.mjs | `audio/youll-be-in-my-heart.m4a` returns 200 (3,922,198 B). All 13 `img/*.jpg` return 200 `image/jpeg` |
+| Browser E2E | `node .agents/scripts/shoot.mjs` (`--autoplay-policy=user-gesture-required`, real CDP mouse input) | **184/184 checks passed, 0 console errors** |
+| Cleanup | `pgrep`, `ls /tmp` | Server stopped, Chrome profiles and temp logs removed |
 
-## What shoot.mjs verified (desktop 1440×900 and mobile 390×844, dsf 2, touch emulation)
-
-- Intro: the heading reads exactly `Gửi những bông hoa của MindX`, the letter is closed, `Mở quà` is present, music is off (`aria-pressed=false`).
-- After `Mở quà` (real mouse input): the intro is hidden, the h1 contains `Ngày Phụ nữ Việt Nam` and `20/10`, focus is in the hero, and there is no horizontal overflow.
-- Garden: 13 `.flower-card` with names in the exact order, `.reveal.is-visible` present, no overflow.
-- Letter (Tuyết Như card): it opens, the name is right, the full wish equals the data, focus is inside, and the paper fits the width. Esc closes it and focus returns to the Tuyết Như card. A backdrop click at (5,5) closes it. The × button closes it. Six Tab presses keep focus inside the dialog.
-- `Sao chép link riêng`: a toast appears (`Đã sao chép…` or the manual fallback with `?to=tuyet-nhu`).
-- A tap on empty space (pointerdown) causes no errors.
-- Music toggle, clicked with real input: on gives `aria-pressed=true` and `aria-label="Tắt nhạc nền"`; off gives `false` and `"Bật nhạc nền"`.
-- Closing section and footer: `Cảm ơn vì đã là một phần tuyệt vời của MindX`, `— Với tất cả sự trân trọng, MindX —`, `20.10.2026`.
-- Fonts: `document.fonts.check` is true for Dancing Script 700, Be Vietnam Pro 400 and Playfair Display 700 on Vietnamese text (online).
-- `?to=tuyet-nhu`: the intro reads `Gửi Tuyết Như`, then the letter opens automatically for Tuyết Như and the title is personalized.
-- `?to=anh`: the intro reads `Gửi Ánh` and the letter is `Ánh` (not Anh Thư/Lan Anh). `Xem cả vườn hoa` closes the letter and scrolls the garden into view (13 cards).
-- `#my-duyen`: the intro reads `Gửi Mỹ Duyên` and the letter is Mỹ Duyên.
-- Fallback cases `?to=abc`, `?to=khong-ton-tai`, `?to=<img src=x onerror=alert(1)>` and `#<svg onload=alert(1)>`: generic intro, no letter, no `<img>` in the DOM, no alert, URL text not rendered, generic title.
-- Reduced motion (mobile): the intro closes in under 900 ms and the wish text is complete 450 ms after opening.
-- `file://…/index.html?to=thu-huong` (mobile): the intro reads `Gửi Thu Hương` and the letter opens.
+### New browser checks (desktop 1440×900 and mobile 390×844)
+- Before the gesture: the song is paused, `preload=auto`, `loop`, `currentSrc` ends with the audio path, and the dock is hidden. The song chip defaults to `aria-pressed=true`.
+- After `Mở quà`: `audio.paused === false`, no media error, volume 0.6 ±0.02, toggle `aria-pressed=true`/`"Tắt nhạc nền"`, dock visible. This passed **without** `no-user-gesture-required`.
+- Simulated `visibilitychange` (overriding `document.hidden`): hidden pauses, visible resumes. A song the user paused stays paused after a tab switch. Toggle off then on updates `paused`, `aria-pressed` and `aria-label`.
+- Garden: 13 `img.flower-card__photo` with `naturalWidth > 0`, `src=img/<slug>.jpg`, `alt="Ảnh của <Tên>"`, `loading=lazy`, width/height attributes, `object-fit: cover`, rendered size 110–150 px, and a flower badge.
+- Broken photo (Kim Dung src set to an invalid data URL): the card switches to the flower illustration.
+- Letters for `tuyet-nhu` (card and `?to=`), `?to=anh`, `?to=lan-thanh` and file:// `?to=thu-huong` all show the SVG flower, no `<img>` inside the letter, and a visible "Ý nghĩa loài hoa:" line equal to the data.
+- `?to=tuyet-nhu` intro: the stamp shows `img/tuyet-nhu.jpg`, loaded.
+- Fallbacks (`?to=abc`, unknown slug, `<img onerror>`/`<svg onload>` payloads): generic intro, no stamp, no letter, no extra `<img>` (only the 13 garden photos), no alert.
+- file://: the song plays after `Mở quà`.
+- Missing song (src switched to a 404): the intro chip and music dock hide, nothing plays. The scenario's only log entry is the expected 404, which is checked explicitly and not counted as an error.
 
 ## Visual review (screenshots inspected)
+- Garden desktop (5 columns) and mobile (2 columns): circular photos in a conic ring tinted with each person's palette, plus a flower badge. Faces stay in frame with `object-position: 50% 30%`. Nothing overflows.
+- Letters: flower, then meaning box, then wish. Diacritics are correct (ữ ế ỹ ọ ờ). The hoa sữa and ngọc lan SVGs read clearly.
+- Fixed after the first pass: the flower/tagline line and the garden hint left one orphaned word ("mùa", "bạn"). Added `text-wrap: balance`, plus `pretty` on the meaning box.
+- Bottom-right music dock: a spinning vinyl and a "♪ You'll Be In My Heart" pill that shows for 6 s after playback starts (and on hover/focus). The label text was edited in `index.html` outside this step (the "NIKI — " prefix was removed). That edit was kept.
 
-Fixed after the first pass:
-- The gold shimmer was too light: "Việt", "Nam" and "nữ" had poor contrast. The gradient is now darker gold with a narrow highlight.
-- The headline wrapped badly, leaving "Nam" on its own line. The fix is `text-wrap: balance` plus nowrap groups, so it now reads "Ngày Phụ nữ / Việt Nam".
-- The bouquet flowers were small and hidden by the wrapping. Flowers are now larger, the wrap and ribbon sit lower, and a soft glow sits behind.
-- The hydrangea read as scattered dots. It is now a dense dome of florets.
-- Letter and card names for pale palettes (daisy, gypsophila) were grey. They now mix with a deep rose.
-- Opening a letter showed a heavy focus ring on × because focus went there. Focus now goes to the name heading (`tabindex=-1`). The autofocus on `Mở quà` is limited to fine pointers, so phones no longer show the ring.
+## Screenshots
+`/Users/orm/Documents/Works/MX/2010/.agents/screenshots/` contains `{desktop,mobile}-01-intro`, `02-hero`, `03-garden`, `03b-garden-full`, `04-letter`, `04b-letter-copied`, `05-personal-intro`, `06-personal-letter`, `07-personal-anh`, `07b-personal-lan-thanh` (new), `08-unknown-slug-intro` and `09-closing`, plus `mobile-10-reduced-letter` and `mobile-11-file-protocol`. All were regenerated in this run.
 
-Final state: Vietnamese diacritics render correctly in Dancing Script, Playfair and Be Vietnam Pro (ạ ế ữ ỹ ằ ự). Nothing overflows at 390 px. The letter fits 390×844 without scrolling. Text is readable.
-
-## Screenshots (all in /Users/orm/Documents/Works/MX/2010/.agents/screenshots)
-
-- /Users/orm/Documents/Works/MX/2010/.agents/screenshots/desktop-01-intro.png
-- /Users/orm/Documents/Works/MX/2010/.agents/screenshots/desktop-02-hero.png
-- /Users/orm/Documents/Works/MX/2010/.agents/screenshots/desktop-03-garden.png
-- /Users/orm/Documents/Works/MX/2010/.agents/screenshots/desktop-03b-garden-full.png
-- /Users/orm/Documents/Works/MX/2010/.agents/screenshots/desktop-04-letter.png
-- /Users/orm/Documents/Works/MX/2010/.agents/screenshots/desktop-04b-letter-copied.png
-- /Users/orm/Documents/Works/MX/2010/.agents/screenshots/desktop-05-personal-intro.png
-- /Users/orm/Documents/Works/MX/2010/.agents/screenshots/desktop-06-personal-letter.png
-- /Users/orm/Documents/Works/MX/2010/.agents/screenshots/desktop-07-personal-anh.png
-- /Users/orm/Documents/Works/MX/2010/.agents/screenshots/desktop-08-unknown-slug-intro.png
-- /Users/orm/Documents/Works/MX/2010/.agents/screenshots/desktop-09-closing.png
-- /Users/orm/Documents/Works/MX/2010/.agents/screenshots/mobile-01-intro.png
-- /Users/orm/Documents/Works/MX/2010/.agents/screenshots/mobile-02-hero.png
-- /Users/orm/Documents/Works/MX/2010/.agents/screenshots/mobile-03-garden.png
-- /Users/orm/Documents/Works/MX/2010/.agents/screenshots/mobile-03b-garden-full.png
-- /Users/orm/Documents/Works/MX/2010/.agents/screenshots/mobile-04-letter.png
-- /Users/orm/Documents/Works/MX/2010/.agents/screenshots/mobile-04b-letter-copied.png
-- /Users/orm/Documents/Works/MX/2010/.agents/screenshots/mobile-05-personal-intro.png
-- /Users/orm/Documents/Works/MX/2010/.agents/screenshots/mobile-06-personal-letter.png
-- /Users/orm/Documents/Works/MX/2010/.agents/screenshots/mobile-07-personal-anh.png
-- /Users/orm/Documents/Works/MX/2010/.agents/screenshots/mobile-08-unknown-slug-intro.png
-- /Users/orm/Documents/Works/MX/2010/.agents/screenshots/mobile-09-closing.png
-- /Users/orm/Documents/Works/MX/2010/.agents/screenshots/mobile-10-reduced-letter.png
-- /Users/orm/Documents/Works/MX/2010/.agents/screenshots/mobile-11-file-protocol.png
-
-## Not verified / notes
-
-- Actual audio output was not listened to. Only the toggle state, the absence of errors and the Web Audio graph creation were checked.
-- Real Zalo/Messenger in-app browsers and iOS Safari were not tested, only Chrome headless with mobile emulation.
-- Mobile screenshots use deviceScaleFactor 2 instead of 3 to keep PNG sizes small. Layout is identical.
-- Cleanup: the http.server is stopped, temporary Chrome profiles are deleted, and `/tmp` logs are removed. Screenshots are kept.
-- **Files not created by this step appeared in the workspace during the run**: `You-ll-Be-in-My-Heart.m4a` (a commercial song, ≈3.9 MB) and `img/` (13 JPGs named after the recipients). The spec forbids copyrighted audio and external assets, so the site does **not** reference them. They were left untouched. If the user wants the photos or that song used, that is a spec change and needs their decision. Before deploying, they should either remove these files or keep them out of the upload.
-- No git repo (per the plan), so nothing was committed.
+## Not verified
+- Nobody listened to the audio. Headless checks confirm only that the element plays, its volume and its state.
+- Not tested on real devices: iOS Safari, Chrome Android, or the Zalo/Messenger in-app browsers. On iOS the volume fade has no effect because iOS ignores `audio.volume`, so the song starts at device volume.
+- Real tab switching was simulated by overriding `document.hidden`, not by actually backgrounding a tab.
+- The photos are 120–240 px sources, so on 3× phones the 120 px circles look slightly soft. They are not upscaled beyond about 140 CSS px.
+- There is no git repo, so nothing was committed.

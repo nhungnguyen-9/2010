@@ -179,31 +179,6 @@ main,
   font-size: 1.15rem;
 }
 
-.chip {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5em;
-  min-height: 44px;
-  padding: 0.5em 1.1em;
-  border: 1.5px solid rgba(184, 59, 94, 0.35);
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.6);
-  color: var(--ink-soft);
-  font-size: 0.92rem;
-  cursor: pointer;
-  transition: background-color 0.25s, color 0.25s, border-color 0.25s;
-}
-
-.chip[aria-pressed='true'] {
-  background: var(--rose-deep);
-  border-color: var(--rose-deep);
-  color: #FFFFFF;
-}
-
-.chip__icon {
-  font-size: 1.1em;
-}
-
 /* Intro */
 .intro {
   position: fixed;
@@ -667,6 +642,7 @@ body.is-blooming .bouquet-sway {
 }
 
 .message__sign {
+  text-wrap: balance;
   margin-top: 22px !important;
   font-family: var(--font-script);
   font-weight: 700;
@@ -684,6 +660,7 @@ body.is-blooming .bouquet-sway {
   margin: 8px auto 28px;
   max-width: 30em;
   text-align: center;
+  text-wrap: balance;
   color: var(--ink-soft);
 }
 
@@ -854,6 +831,7 @@ body.is-blooming .bouquet-sway {
 }
 
 .closing__sign {
+  text-wrap: balance;
   margin: 14px 0 26px;
   font-family: var(--font-serif);
   font-style: italic;
@@ -999,6 +977,7 @@ body.is-blooming .bouquet-sway {
 
 .letter__meta {
   font-size: 0.88rem;
+  text-wrap: balance;
   color: var(--ink-soft);
 }
 
@@ -1009,6 +988,7 @@ body.is-blooming .bouquet-sway {
   border-radius: 14px;
   font-size: 0.93rem;
   line-height: 1.6;
+  text-wrap: pretty;
   color: var(--ink);
   background: color-mix(in srgb, var(--p-glow, #FFF0F4) 75%, #FFFFFF);
   box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--p-deep, #E87A93) 45%, transparent);
@@ -1052,6 +1032,7 @@ body.is-blooming .bouquet-sway {
   font-family: var(--font-script);
   font-weight: 700;
   font-size: 1.45rem;
+  text-wrap: balance;
   color: var(--rose-deep);
 }
 
@@ -1118,7 +1099,8 @@ body.is-blooming .bouquet-sway {
   position: fixed;
   right: max(16px, env(safe-area-inset-right));
   bottom: max(16px, calc(env(safe-area-inset-bottom) + 12px));
-  z-index: 90;
+  /* Above the intro (100) and its petal canvas (101) so the song can be paused before opening the gift. */
+  z-index: 105;
   display: flex;
   flex-direction: row-reverse;
   align-items: center;
@@ -1297,10 +1279,6 @@ body.is-blooming .bouquet-sway {
 
   .flower-card__portrait {
     --portrait-size: 140px;
-  }
-
-  .intro__actions {
-    flex-direction: row;
   }
 }
 

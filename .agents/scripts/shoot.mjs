@@ -12,6 +12,10 @@ const CHROME = '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
 const BASE = process.env.BASE_URL || 'http://127.0.0.1:8765/index.html';
 const FILE_URL = `file://${path.join(ROOT, 'index.html')}`;
 const DEBUG_PORT = 9333;
+const LETTER_SIGN = '— Từ một người luôn trân trọng bạn —';
+const CLOSING_SIGN = '— Một người giấu tên, mãi trân trọng các bạn —';
+const MESSAGE_SIGN = '— Một người giấu tên —';
+const SENDER_PATTERN = /chúng mình|chúng tôi|cả nhà|MindX gửi|gửi tặng|Từ MindX|, MindX —|Với tất cả/i;
 const AUDIO_PATH = 'audio/youll-be-in-my-heart.m4a';
 
 const sandbox = { window: {} };
@@ -168,13 +172,16 @@ const letterExtras = `(() => ({
   meaningLabel: document.querySelector('.letter__meaning-label').textContent,
   meaningVisible: document.querySelector('.letter__meaning').getBoundingClientRect().height > 20,
   hasFlowerSvg: Boolean(document.querySelector('#letter-flower svg.flower')),
-  imgsInLetter: document.querySelectorAll('#letter img').length
+  imgsInLetter: document.querySelectorAll('#letter img').length,
+  sign: document.querySelector('.letter__sign').textContent,
+  wish: document.getElementById('letter-wish-full').textContent
 }))()`;
 
 async function checkLetterContent(recipient) {
   const extras = await evaluate(letterExtras);
   check(`letter shows ${recipient.flower} SVG, no photo`, extras.hasFlowerSvg && extras.imgsInLetter === 0, extras);
   check('letter shows flower meaning', extras.meaningVisible && extras.meaningLabel === 'Ý nghĩa loài hoa:' && extras.meaning === recipient.flowerMeaning, extras);
+  check('letter is signed anonymously, wish has no collective/MindX sender', extras.sign === LETTER_SIGN && !SENDER_PATTERN.test(extras.wish), { sign: extras.sign });
 }
 
 const letterState = `(() => ({
@@ -198,9 +205,10 @@ async function runMainFlow(viewportName) {
   check('intro heading is generic', (await evaluate("document.getElementById('intro-title').textContent")) === 'Gửi những bông hoa của MindX');
   check('letter not open', !(await evaluate("document.getElementById('letter').open")));
   check('Mở quà button exists', (await evaluate("document.getElementById('open-gift').textContent.trim()")).includes('Mở quà'));
-  check('song chip on by default', (await evaluate("document.getElementById('intro-music').getAttribute('aria-pressed')")) === 'true');
+  check('"Kèm bài hát" control removed', await evaluate("!document.getElementById('intro-music') && !document.body.textContent.includes('Kèm bài hát')"));
+  check('no sender wording anywhere on the page', !(await evaluate(`${SENDER_PATTERN}.test(document.body.textContent + document.title + Array.from(document.querySelectorAll('meta[content]')).map((m) => m.content).join(' '))`)));
   let audio = await evaluate(audioState);
-  check('audio paused before gesture, buffering requested', audio.paused && audio.preload === 'auto' && audio.loop && audio.src.endsWith(AUDIO_PATH) && audio.dockHidden, audio);
+  check('autoplay blocked: song paused on load, preload=auto, loop, dock visible with real state', audio.paused && audio.preload === 'auto' && audio.loop && audio.src.endsWith(AUDIO_PATH) && !audio.dockHidden && audio.pressed === 'false' && audio.label === 'Bật nhạc nền', audio);
 
   scenarioLabel = `${viewportName} b-hero`;
   await openGift();
@@ -314,6 +322,9 @@ async function runMainFlow(viewportName) {
   await hideTab(false);
   await sleep(400);
   check('user-paused song stays paused after tab switch', (await evaluate(audioState)).paused);
+  await clickSelector('#message-title');
+  await sleep(600);
+  check('user-paused song stays paused after tapping the page', (await evaluate(audioState)).paused);
   await clickSelector('#music-toggle');
   await sleep(2000);
   music = await evaluate(audioState);
@@ -331,7 +342,7 @@ async function runMainFlow(viewportName) {
   await sleep(1200);
   await screenshot(viewportName, '09-closing');
   const closingText = await evaluate("document.getElementById('section-closing').textContent + document.querySelector('.footer').textContent");
-  check('closing lines present', closingText.includes('Cảm ơn vì đã là một phần tuyệt vời của MindX') && closingText.includes('— Với tất cả sự trân trọng, MindX —') && closingText.includes('20.10.2026'));
+  check('closing lines present', closingText.includes('Cảm ơn vì đã là một phần tuyệt vời của MindX') && closingText.includes(CLOSING_SIGN) && (await evaluate("document.querySelector('.message__sign').textContent")) === MESSAGE_SIGN && closingText.includes('20.10.2026'));
 
   scenarioLabel = `${viewportName} m-fonts`;
   const fonts = await evaluate(`({
@@ -373,6 +384,15 @@ async function runPersonalFlows(viewportName) {
   check('garden has 13 cards', (await evaluate("document.querySelectorAll('.flower-card').length")) === 13);
   const gardenTop = await evaluate("document.getElementById('section-garden').getBoundingClientRect().top");
   check('garden scrolled into view', Math.abs(gardenTop) < 120, gardenTop);
+
+  scenarioLabel = `${viewportName} f-personal-lan-thanh`;
+  await navigate(`${BASE}?to=lan-thanh`);
+  await openGift();
+  await sleep(4500);
+  letter = await evaluate(letterState);
+  check('letter is Lan Thanh', letter.open && letter.name === 'Lan Thanh', letter.name);
+  await checkLetterContent(RECIPIENTS[10]);
+  await screenshot(viewportName, '07b-personal-lan-thanh');
 
   scenarioLabel = `${viewportName} g-hash`;
   await navigate(`${BASE}#my-duyen`);
@@ -418,6 +438,11 @@ async function runReducedMotion() {
   const letter = await evaluate(letterState);
   check('wish typed instantly', letter.open && letter.typed === RECIPIENTS[1].wish);
   await screenshot('mobile', '10-reduced-letter');
+  await evaluate("(() => { const dialog = document.getElementById('letter'); dialog.scrollTop = dialog.scrollHeight; return true; })()");
+  await sleep(300);
+  await screenshot('mobile', '10b-reduced-letter-end');
+  const signLines = await evaluate("(() => { const sign = document.querySelector('.letter__sign'); return Math.round(sign.getBoundingClientRect().height / parseFloat(getComputedStyle(sign).lineHeight || 0) || 0); })()");
+  check('letter signature fits in at most 2 lines', signLines <= 2, signLines);
   await cdp.send('Emulation.setEmulatedMedia', { features: [] });
 }
 
@@ -433,6 +458,8 @@ async function runFileProtocol() {
   await checkLetterContent(RECIPIENTS[7]);
   check('file:// song playing', !(await evaluate(audioState)).paused);
   await screenshot('mobile', '11-file-protocol');
+  scenarioLabel = 'mobile c-loop (file://, real seek)';
+  await checkLoopsAtEnd();
 }
 
 async function checkHttpAssets() {
@@ -445,58 +472,211 @@ async function checkHttpAssets() {
   }
 }
 
-async function main() {
-  mkdirSync(SHOTS_DIR, { recursive: true });
-  await checkHttpAssets();
+async function runMissingAudio() {
+  scenarioLabel = 'desktop n-missing-audio (expects one 404)';
+  await setViewport('desktop');
+  const errorsBefore = consoleErrors.length;
+  await navigate(BASE);
+  await evaluate("(() => { const audio = document.getElementById('bg-music'); audio.src = 'audio/khong-co-file.m4a'; audio.load(); return true; })()");
+  await sleep(800);
+  check('music dock hidden when song cannot load', await evaluate("document.getElementById('music-dock').hidden"));
+  await openGift();
+  const state = await evaluate(audioState);
+  check('music dock stays hidden, nothing playing', state.dockHidden && state.paused, state);
+  const newErrors = consoleErrors.splice(errorsBefore);
+  check('only the expected 404 was logged', newErrors.every((entry) => entry.text.includes('404') || entry.text.includes('khong-co-file')), newErrors);
+}
+
+const audioTiming = `(() => {
+  const audio = document.getElementById('bg-music');
+  return { paused: audio.paused, time: Number(audio.currentTime.toFixed(2)), duration: audio.duration, loop: audio.loop, ended: window.__endedCount, wraps: window.__wrapCount };
+})()`;
+
+async function seekToLastSecond() {
+  return evaluate(`new Promise((resolve) => {
+    const audio = document.getElementById('bg-music');
+    const startedAt = performance.now();
+    const seek = () => {
+      const timer = setTimeout(() => resolve({ seekedTo: audio.currentTime, duration: audio.duration, timedOut: true }), 3000);
+      audio.addEventListener('seeked', () => { clearTimeout(timer); resolve({ seekedTo: audio.currentTime, duration: audio.duration }); }, { once: true });
+      audio.currentTime = audio.duration - 1;
+    };
+    (function poll() {
+      const bufferedEnd = audio.buffered.length ? audio.buffered.end(audio.buffered.length - 1) : 0;
+      if ((audio.duration && bufferedEnd >= audio.duration - 0.5) || performance.now() - startedAt > 15000) seek();
+      else setTimeout(poll, 100);
+    })();
+  })`);
+}
+
+// Reaches the real end of the track: seek to duration-1 where the server allows it (Range support),
+// otherwise (python http.server has no Range support) play the rest at 16x speed.
+async function runToEnd(counterName) {
+  const seek = await seekToLastSecond();
+  const seeked = seek.seekedTo > seek.duration - 2;
+  if (!seeked) await evaluate("(() => { document.getElementById('bg-music').playbackRate = 16; return true; })()");
+  const deadline = Date.now() + (seeked ? 4000 : 30000);
+  let timing = await evaluate(audioTiming);
+  while (!(timing[counterName] >= 1) && Date.now() < deadline) {
+    await sleep(250);
+    timing = await evaluate(audioTiming);
+  }
+  await evaluate("(() => { document.getElementById('bg-music').playbackRate = 1; return true; })()");
+  await sleep(1200);
+  return { method: seeked ? 'seek to duration-1' : 'seek unsupported by server, ran to end at 16x', seek, timing: await evaluate(audioTiming) };
+}
+
+async function checkLoopsAtEnd() {
+  await evaluate(`(() => {
+    const audio = document.getElementById('bg-music');
+    window.__endedCount = 0;
+    window.__wrapCount = 0;
+    let lastTime = audio.currentTime;
+    audio.addEventListener('ended', () => { window.__endedCount += 1; });
+    audio.addEventListener('timeupdate', () => {
+      if (audio.currentTime < lastTime - 5) window.__wrapCount += 1;
+      lastTime = audio.currentTime;
+    });
+    return true;
+  })()`);
+  let outcome = await runToEnd('wraps');
+  check(`loop=true: end of track wraps to the start and keeps playing (${outcome.method})`, outcome.timing.wraps >= 1 && !outcome.timing.paused && outcome.timing.loop && outcome.timing.time < 10, outcome);
+
+  await evaluate("(() => { document.getElementById('bg-music').loop = false; window.__wrapCount = 0; return true; })()");
+  outcome = await runToEnd('ended');
+  check(`ended safety net (loop forced off): restarts from 0 and keeps playing (${outcome.method})`, outcome.timing.ended >= 1 && !outcome.timing.paused && outcome.timing.time < 10, outcome);
+  await evaluate("(() => { document.getElementById('bg-music').loop = true; return true; })()");
+}
+
+async function tap(x, y) {
+  const point = [{ x, y, radiusX: 4, radiusY: 4, force: 1, id: 1 }];
+  await cdp.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: point });
+  await cdp.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] });
+}
+
+async function runAutoplayBlocked(viewportName) {
+  await setViewport(viewportName);
+  scenarioLabel = `${viewportName} b-autoplay-blocked`;
+  const errorsBefore = consoleErrors.length;
+  await navigate(BASE);
+  await sleep(1000);
+  let audio = await evaluate(audioState);
+  check('song paused on load (browser blocks autoplay), toggle says paused', audio.paused && audio.pressed === 'false' && audio.label === 'Bật nhạc nền' && !audio.dockHidden, audio);
+  check('no console errors / unhandled rejections after blocked autoplay', consoleErrors.length === errorsBefore, consoleErrors.slice(errorsBefore));
+  if (viewportName === 'mobile') await tap(30, 30);
+  else await mouseClick(30, 30);
+  await sleep(2000);
+  audio = await evaluate(audioState);
+  check(`one ${viewportName === 'mobile' ? 'tap' : 'click'} on an empty spot starts the song, intro still shown`, !audio.paused && audio.error === null && Math.abs(audio.volume - 0.6) < 0.02 && audio.pressed === 'true' && audio.label === 'Tắt nhạc nền' && !(await evaluate("document.getElementById('intro').hidden")), audio);
+  if (viewportName === 'desktop') {
+    scenarioLabel = 'desktop c-loop (after gesture)';
+    await checkLoopsAtEnd();
+  }
+
+  scenarioLabel = `${viewportName} b2-first-gesture-on-toggle`;
+  await navigate(BASE);
+  await clickSelector('#music-toggle');
+  await sleep(1800);
+  audio = await evaluate(audioState);
+  check('first interaction on the vinyl toggle starts (not instantly re-pauses) the song', !audio.paused && audio.pressed === 'true', audio);
+  await clickSelector('#music-toggle');
+  await sleep(400);
+  await mouseClick(30, 30);
+  await sleep(600);
+  check('after pausing on the intro, tapping the page does not resume', (await evaluate(audioState)).paused);
+
+  if (viewportName === 'desktop') {
+    scenarioLabel = 'desktop b3-first-keydown';
+    await navigate(BASE);
+    await cdp.send('Input.dispatchKeyEvent', { type: 'rawKeyDown', key: 'a', code: 'KeyA', windowsVirtualKeyCode: 65 });
+    await cdp.send('Input.dispatchKeyEvent', { type: 'keyUp', key: 'a', code: 'KeyA', windowsVirtualKeyCode: 65 });
+    await sleep(1500);
+    check('first key press starts the song', !(await evaluate(audioState)).paused);
+  }
+  check('no console errors in blocked-autoplay scenarios', consoleErrors.length === errorsBefore, consoleErrors.slice(errorsBefore));
+}
+
+async function runAutoplayAllowed() {
+  await setViewport('desktop');
+  scenarioLabel = 'desktop a-autoplay-allowed';
+  await navigate(BASE);
+  await sleep(2200);
+  const audio = await evaluate(audioState);
+  check('song plays on load with no gesture, loop on, faded to 0.6, toggle says playing', !audio.paused && audio.loop && audio.error === null && Math.abs(audio.volume - 0.6) < 0.02 && audio.pressed === 'true' && audio.label === 'Tắt nhạc nền' && !audio.dockHidden, audio);
+  check('intro still waiting for Mở quà', !(await evaluate("document.getElementById('intro').hidden")));
+  await screenshot('desktop', '12-autoplay-intro');
+  scenarioLabel = 'desktop c-loop (autoplay)';
+  await checkLoopsAtEnd();
+  scenarioLabel = 'desktop a-autoplay-allowed open';
+  await openGift();
+  check('song keeps playing through Mở quà (not restarted/paused)', !(await evaluate(audioState)).paused);
+}
+
+async function launchChrome(autoplayPolicy, port) {
   const profileDir = mkdtempSync(path.join(tmpdir(), 'mindx-chrome-'));
   const chrome = spawn(CHROME, [
     '--headless=new',
-    `--remote-debugging-port=${DEBUG_PORT}`,
+    `--remote-debugging-port=${port}`,
     `--user-data-dir=${profileDir}`,
     '--no-first-run',
     '--no-default-browser-check',
     '--hide-scrollbars',
-    '--autoplay-policy=user-gesture-required',
+    `--autoplay-policy=${autoplayPolicy}`,
     '--allow-file-access-from-files',
     'about:blank'
   ], { stdio: 'ignore' });
-
-  try {
-    let version = null;
-    for (let attempt = 0; attempt < 50 && !version; attempt += 1) {
-      try {
-        version = await (await fetch(`http://127.0.0.1:${DEBUG_PORT}/json/version`)).json();
-      } catch (error) {
-        await sleep(200);
-      }
+  let version = null;
+  for (let attempt = 0; attempt < 50 && !version; attempt += 1) {
+    try {
+      version = await (await fetch(`http://127.0.0.1:${port}/json/version`)).json();
+    } catch (error) {
+      await sleep(200);
     }
-    if (!version) throw new Error('Chrome did not start');
-    const target = await (await fetch(`http://127.0.0.1:${DEBUG_PORT}/json/new?about:blank`, { method: 'PUT' })).json();
-    const socket = new WebSocket(target.webSocketDebuggerUrl);
-    await new Promise((resolve, reject) => {
-      socket.addEventListener('open', resolve, { once: true });
-      socket.addEventListener('error', reject, { once: true });
-    });
-    cdp = new Cdp(socket);
-    cdp.on('Runtime.exceptionThrown', (params) => consoleErrors.push({ scenario: scenarioLabel, type: 'exception', text: params.exceptionDetails.exception?.description || params.exceptionDetails.text }));
-    cdp.on('Runtime.consoleAPICalled', (params) => {
-      if (params.type === 'error' || params.type === 'assert') {
-        consoleErrors.push({ scenario: scenarioLabel, type: params.type, text: params.args.map((arg) => arg.value ?? arg.description).join(' ') });
-      }
-    });
-    cdp.on('Log.entryAdded', (params) => {
-      if (params.entry.level === 'error') consoleErrors.push({ scenario: scenarioLabel, type: 'log', text: `${params.entry.text} ${params.entry.url || ''}` });
-    });
-    cdp.on('Page.javascriptDialogOpening', (params) => {
-      consoleErrors.push({ scenario: scenarioLabel, type: 'alert', text: params.message });
-      cdp.send('Page.handleJavaScriptDialog', { accept: true });
-    });
-    await cdp.send('Page.enable');
-    await cdp.send('Runtime.enable');
-    await cdp.send('Log.enable');
-    await cdp.send('Page.bringToFront');
-    await cdp.send('Emulation.setFocusEmulationEnabled', { enabled: true });
+  }
+  if (!version) throw new Error('Chrome did not start');
+  const target = await (await fetch(`http://127.0.0.1:${port}/json/new?about:blank`, { method: 'PUT' })).json();
+  const socket = new WebSocket(target.webSocketDebuggerUrl);
+  await new Promise((resolve, reject) => {
+    socket.addEventListener('open', resolve, { once: true });
+    socket.addEventListener('error', reject, { once: true });
+  });
+  cdp = new Cdp(socket);
+  cdp.on('Runtime.exceptionThrown', (params) => consoleErrors.push({ scenario: scenarioLabel, type: 'exception', text: params.exceptionDetails.exception?.description || params.exceptionDetails.text }));
+  cdp.on('Runtime.consoleAPICalled', (params) => {
+    if (params.type === 'error' || params.type === 'assert') {
+      consoleErrors.push({ scenario: scenarioLabel, type: params.type, text: params.args.map((arg) => arg.value ?? arg.description).join(' ') });
+    }
+  });
+  cdp.on('Log.entryAdded', (params) => {
+    if (params.entry.level === 'error') consoleErrors.push({ scenario: scenarioLabel, type: 'log', text: `${params.entry.text} ${params.entry.url || ''}` });
+  });
+  cdp.on('Page.javascriptDialogOpening', (params) => {
+    consoleErrors.push({ scenario: scenarioLabel, type: 'alert', text: params.message });
+    cdp.send('Page.handleJavaScriptDialog', { accept: true });
+  });
+  await cdp.send('Page.enable');
+  await cdp.send('Runtime.enable');
+  await cdp.send('Log.enable');
+  await cdp.send('Page.bringToFront');
+  await cdp.send('Emulation.setFocusEmulationEnabled', { enabled: true });
+  return async () => {
+    socket.close();
+    chrome.kill('SIGTERM');
+    await sleep(500);
+    rmSync(profileDir, { recursive: true, force: true });
+  };
+}
 
+async function main() {
+  mkdirSync(SHOTS_DIR, { recursive: true });
+  await checkHttpAssets();
+
+  // Chrome desktop's real default policy: sound needs a user activation on the document.
+  let closeChrome = await launchChrome('document-user-activation-required', DEBUG_PORT);
+  try {
+    for (const viewportName of ['desktop', 'mobile']) {
+      await runAutoplayBlocked(viewportName);
+    }
     for (const viewportName of ['desktop', 'mobile']) {
       await setViewport(viewportName);
       await runMainFlow(viewportName);
@@ -504,11 +684,16 @@ async function main() {
     }
     await runReducedMotion();
     await runFileProtocol();
-    socket.close();
+    await runMissingAudio();
   } finally {
-    chrome.kill('SIGTERM');
-    await sleep(500);
-    rmSync(profileDir, { recursive: true, force: true });
+    await closeChrome();
+  }
+
+  closeChrome = await launchChrome('no-user-gesture-required', DEBUG_PORT + 1);
+  try {
+    await runAutoplayAllowed();
+  } finally {
+    await closeChrome();
   }
 
   const failed = results.filter((result) => !result.ok);

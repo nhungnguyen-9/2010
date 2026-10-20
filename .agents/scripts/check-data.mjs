@@ -26,6 +26,11 @@ check('names exact and ordered', JSON.stringify(recipients.map((r) => r.name)) =
 check('slugs exact and ordered', JSON.stringify(recipients.map((r) => r.slug)) === JSON.stringify(expectedSlugs));
 ['slug', 'flower', 'flowerType', 'tagline', 'wish', 'flowerMeaning', 'photo'].forEach((key) => check(`unique ${key}`, unique(key)));
 check('unique wish openings (first 3 words)', new Set(recipients.map((r) => r.wish.split(/\s+/).slice(0, 3).join(' '))).size === 13);
+const SENDER_PATTERN = /chúng mình|chúng tôi|cả nhà|gia đình|MindX gửi|gửi tặng|Từ MindX|MindX (?:chúc|muốn|trân trọng|xin)|Với tất cả/i;
+recipients.forEach((recipient) => {
+  const text = [recipient.wish, recipient.tagline, recipient.flowerMeaning].join(' ');
+  check(`${recipient.slug}: anonymous sender (no MindX/collective sender wording)`, !SENDER_PATTERN.test(text));
+});
 
 const flowersSource = readFileSync(path.join(root, 'js', 'flowers.js'), 'utf8');
 
