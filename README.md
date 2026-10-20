@@ -1,8 +1,8 @@
-# Gửi những bông hoa của MindX · 20/10/2026
+# Gửi những bông hoa của MindX Biên Hoà · 20/10/2026
 
-Món quà nhỏ nhân Ngày Phụ nữ Việt Nam 20/10 dành cho những người phụ nữ tuyệt vời của MindX: một phong thư mở ra thành bó hoa, một lời chúc chung và một "vườn hoa" với lá thư riêng cho từng người.
+Món quà nhỏ nhân Ngày Phụ nữ Việt Nam 20/10 dành cho những người phụ nữ tuyệt vời của MindX Biên Hoà: một phong thư mở ra thành bó hoa, một lời chúc chung và một "vườn hoa" với lá thư riêng cho từng người.
 
-Mọi lời chúc đều được viết như thư **ẩn danh**, không nêu tên người gửi và không đứng tên công ty. Thư riêng kết bằng "— Từ một người luôn trân trọng bạn —", phần cuối trang kết bằng "— Mãi trân trọng các bạn —". MindX chỉ được nhắc đến như nơi các bạn làm việc ("những bông hoa của MindX", "Vườn hoa MindX").
+Mọi lời chúc đều được viết như thư **ẩn danh**, không nêu tên người gửi và không đứng tên công ty. Thư riêng kết bằng "— Từ một người luôn trân trọng bạn —", phần cuối trang kết bằng "— Mãi trân trọng các bạn —". MindX Biên Hoà chỉ được nhắc đến như nơi các bạn làm việc ("những bông hoa của MindX Biên Hoà", "Vườn hoa MindX Biên Hoà").
 
 Trang web hoàn toàn tĩnh (HTML, CSS, JavaScript thuần), không cần cài đặt hay build. Hoa được vẽ bằng SVG/Canvas. Bài hát nền là **NIKI – You'll Be In My Heart**, tự phát ngay khi mở trang và lặp lại khi hết bài.
 

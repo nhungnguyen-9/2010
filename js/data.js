@@ -11,7 +11,7 @@
       palette: { petal: '#D9A7E8', petalDeep: '#9C5BB8', center: '#F7E27A', glow: '#F3E1FA' },
       tagline: 'Thanh tao và kiêu hãnh như đóa lan',
       flowerMeaning: 'Hoa lan hồ điệp tượng trưng cho vẻ đẹp thanh cao, sang trọng và sự tinh tế, đúng như nét điềm tĩnh, tinh anh mà Lan Anh luôn mang theo.',
-      wish: 'Giữa những ngày bận rộn, sự điềm tĩnh và tinh tế của Lan Anh luôn khiến mọi thứ xung quanh trở nên nhẹ nhàng hơn. Như đóa lan lặng lẽ tỏa hương, bạn chẳng cần ồn ào mà vẫn khiến người khác phải ngưỡng mộ. Nhân ngày 20/10, mình chúc bạn luôn giữ được nét thanh tao và tinh anh ấy, cùng thật nhiều niềm vui trên mỗi chặng đường. Cảm ơn bạn vì đã là một phần không thể thiếu của MindX.'
+      wish: 'Giữa những ngày bận rộn, sự điềm tĩnh và tinh tế của Lan Anh luôn khiến mọi thứ xung quanh trở nên nhẹ nhàng hơn. Như đóa lan lặng lẽ tỏa hương, bạn chẳng cần ồn ào mà vẫn khiến người khác phải ngưỡng mộ. Nhân ngày 20/10, mình chúc bạn luôn giữ được nét thanh tao và tinh anh ấy, cùng thật nhiều niềm vui trên mỗi chặng đường. Cảm ơn bạn vì đã là một phần không thể thiếu của MindX Biên Hoà.'
     },
     {
       slug: 'tuyet-nhu',
@@ -22,7 +22,7 @@
       palette: { petal: '#FFFFFF', petalDeep: '#DCE3EE', center: '#F5C842', glow: '#EEF3FB' },
       tagline: 'Trong trẻo như tuyết đầu mùa',
       flowerMeaning: 'Cúc họa mi trắng là biểu tượng của sự trong trẻo, ngây thơ và tình cảm chân thành; nở vào cuối thu, nhỏ bé mà kiên cường như sắc tuyết trong tên Tuyết Như.',
-      wish: 'Gửi Tuyết Như, người mang đến cho MindX cảm giác trong trẻo như những bông tuyết đầu mùa. Cúc họa mi chỉ nở vào cuối thu, nhỏ bé mà kiên cường, và mình thấy ở bạn đúng vẻ đẹp dịu dàng mà bền bỉ ấy. Chúc bạn một ngày 20/10 thật ấm áp, được yêu thương nhiều như cách bạn vẫn luôn quan tâm mọi người. Bạn không cần biết ai gửi lá thư này, chỉ cần biết rằng bạn đang được trân trọng.'
+      wish: 'Gửi Tuyết Như, người mang đến cho MindX Biên Hoà cảm giác trong trẻo như những bông tuyết đầu mùa. Cúc họa mi chỉ nở vào cuối thu, nhỏ bé mà kiên cường, và mình thấy ở bạn đúng vẻ đẹp dịu dàng mà bền bỉ ấy. Chúc bạn một ngày 20/10 thật ấm áp, được yêu thương nhiều như cách bạn vẫn luôn quan tâm mọi người. Bạn không cần biết ai gửi lá thư này, chỉ cần biết rằng bạn đang được trân trọng.'
     },
     {
       slug: 'truc-ly',
@@ -44,7 +44,7 @@
       palette: { petal: '#A9C8F0', petalDeep: '#6C8FD6', center: '#F1F5FF', glow: '#E3EDFB' },
       tagline: 'Nhẹ nhàng như mây, rạng ngời như nắng',
       flowerMeaning: 'Cẩm tú cầu mang ý nghĩa của sự chân thành, lòng biết ơn và gắn kết, muôn bông nhỏ cùng nở thành một chùm, nhẹ nhàng như áng mây trong tên Vân Anh.',
-      wish: 'Như những áng mây nhẹ trôi trên bầu trời, Vân Anh mang đến cho mọi người cảm giác thư thái và dễ chịu. Cẩm tú cầu là hàng trăm bông hoa nhỏ hợp lại thành một chùm rực rỡ, giống như cách bạn lặng lẽ kéo mọi người ở MindX lại gần nhau hơn. Chúc bạn một ngày 20/10 ngập tràn hoa và lời thương. Mong bạn luôn tự do theo đuổi những điều bạn yêu thích, nhẹ nhàng và rạng ngời như chính cái tên của bạn.'
+      wish: 'Như những áng mây nhẹ trôi trên bầu trời, Vân Anh mang đến cho mọi người cảm giác thư thái và dễ chịu. Cẩm tú cầu là hàng trăm bông hoa nhỏ hợp lại thành một chùm rực rỡ, giống như cách bạn lặng lẽ kéo mọi người ở MindX Biên Hoà lại gần nhau hơn. Chúc bạn một ngày 20/10 ngập tràn hoa và lời thương. Mong bạn luôn tự do theo đuổi những điều bạn yêu thích, nhẹ nhàng và rạng ngời như chính cái tên của bạn.'
     },
     {
       slug: 'anh',
@@ -55,7 +55,7 @@
       palette: { petal: '#FFC93C', petalDeep: '#F29E1F', center: '#7A4A1E', glow: '#FFF1C9' },
       tagline: 'Rạng rỡ như ánh nắng ban mai',
       flowerMeaning: 'Hướng dương là biểu tượng của niềm tin, sự lạc quan và lòng trung thành, luôn hướng về phía mặt trời như chính ánh sáng trong tên Ánh.',
-      wish: 'Ánh à, đúng như tên gọi, bạn là một nguồn sáng thật ấm áp ở MindX. Hướng dương luôn quay về phía mặt trời, và mỗi lần ở cạnh bạn, mình cũng thấy bản thân hướng về những điều tích cực hơn. Nhân ngày đặc biệt này, chúc bạn luôn khỏe mạnh, rạng rỡ và đón nhận thật nhiều niềm vui. Cảm ơn bạn vì đã thắp sáng những ngày làm việc của mọi người xung quanh.'
+      wish: 'Ánh à, đúng như tên gọi, bạn là một nguồn sáng thật ấm áp ở MindX Biên Hoà. Hướng dương luôn quay về phía mặt trời, và mỗi lần ở cạnh bạn, mình cũng thấy bản thân hướng về những điều tích cực hơn. Nhân ngày đặc biệt này, chúc bạn luôn khỏe mạnh, rạng rỡ và đón nhận thật nhiều niềm vui. Cảm ơn bạn vì đã thắp sáng những ngày làm việc của mọi người xung quanh.'
     },
     {
       slug: 'anh-thu',
@@ -132,7 +132,7 @@
       palette: { petal: '#F9A8C0', petalDeep: '#E25588', center: '#FFE0A3', glow: '#FFEFF4' },
       tagline: 'Duyên dáng như cánh đào xuân',
       flowerMeaning: 'Hoa đào là sứ giả của mùa xuân, mang ý nghĩa may mắn, sức sống mới và những mối duyên tốt đẹp, xinh tươi và có duyên như Mỹ Duyên.',
-      wish: 'Người ta nói gặp được nhau là duyên, và được gặp Mỹ Duyên ở MindX là một cái duyên thật đẹp với mình. Như cánh đào hồng mỗi độ xuân về, bạn mang đến niềm vui và sự tươi mới cho mọi người. Chúc bạn một ngày 20/10 thật rạng rỡ, luôn duyên dáng và tự tin theo cách của riêng bạn. Mong mỗi ngày của bạn đều có thêm một lý do để mỉm cười.'
+      wish: 'Người ta nói gặp được nhau là duyên, và được gặp Mỹ Duyên ở MindX Biên Hoà là một cái duyên thật đẹp với mình. Như cánh đào hồng mỗi độ xuân về, bạn mang đến niềm vui và sự tươi mới cho mọi người. Chúc bạn một ngày 20/10 thật rạng rỡ, luôn duyên dáng và tự tin theo cách của riêng bạn. Mong mỗi ngày của bạn đều có thêm một lý do để mỉm cười.'
     },
     {
       slug: 'thanh-nhan',
@@ -143,7 +143,7 @@
       palette: { petal: '#FFFFFF', petalDeep: '#F3C1D3', center: '#FCE4EC', glow: '#FDF2F6' },
       tagline: 'Nhẹ nhàng, an nhiên như hoa baby',
       flowerMeaning: 'Hoa baby tượng trưng cho sự thuần khiết, tình cảm chân thành và hạnh phúc giản dị, nhẹ nhàng và thanh thản như tên Thanh Nhàn.',
-      wish: 'Chúc Thanh Nhàn một ngày 20/10 đúng như cái tên của bạn: thật thanh thản và an nhiên giữa những bộn bề cuộc sống. Hoa baby nhỏ xinh, giản dị nhưng luôn khiến mọi bó hoa trở nên trọn vẹn, giống như cách bạn làm cho MindX thêm ấm áp. Mong bạn luôn tìm được sự cân bằng, những niềm vui bình dị và thật nhiều phút giây yên bình. Cảm ơn bạn vì đã luôn ở đây, làm cho mỗi ngày ở MindX thêm dịu dàng.'
+      wish: 'Chúc Thanh Nhàn một ngày 20/10 đúng như cái tên của bạn: thật thanh thản và an nhiên giữa những bộn bề cuộc sống. Hoa baby nhỏ xinh, giản dị nhưng luôn khiến mọi bó hoa trở nên trọn vẹn, giống như cách bạn làm cho MindX Biên Hoà thêm ấm áp. Mong bạn luôn tìm được sự cân bằng, những niềm vui bình dị và thật nhiều phút giây yên bình. Cảm ơn bạn vì đã luôn ở đây, làm cho mỗi ngày làm việc thêm dịu dàng.'
     },
     {
       slug: 'trung-duy',
@@ -154,7 +154,7 @@
       palette: { petal: '#FFA48F', petalDeep: '#E5525E', center: '#FFD9C2', glow: '#FFF1EC' },
       tagline: 'Duy nhất và không thể trộn lẫn',
       flowerMeaning: 'Hoa cẩm chướng tượng trưng cho lòng biết ơn, sự ngưỡng mộ và tình cảm bền lâu; từng lớp cánh xếp nếp riêng biệt như nét "duy nhất" trong tên Trung Duy.',
-      wish: 'Chữ "Duy" trong tên Trung Duy khiến mình nghĩ ngay đến hai chữ "duy nhất", và quả thật ở MindX chẳng có ai giống bạn cả. Như đóa cẩm chướng mang ý nghĩa của lòng biết ơn, lá thư nhỏ này muốn cảm ơn bạn vì những điều tử tế bạn đã lặng lẽ mang đến cho mọi người. Chúc bạn một ngày 20/10 thật vui, luôn tự tin, rạng rỡ và được yêu thương đúng như bạn xứng đáng. Mong bạn mãi giữ được nét riêng không thể trộn lẫn ấy.'
+      wish: 'Chữ "Duy" trong tên Trung Duy khiến mình nghĩ ngay đến hai chữ "duy nhất", và quả thật ở MindX Biên Hoà chẳng có ai giống bạn cả. Như đóa cẩm chướng mang ý nghĩa của lòng biết ơn, lá thư nhỏ này muốn cảm ơn bạn vì những điều tử tế bạn đã lặng lẽ mang đến cho mọi người. Chúc bạn một ngày 20/10 thật vui, luôn tự tin, rạng rỡ và được yêu thương đúng như bạn xứng đáng. Mong bạn mãi giữ được nét riêng không thể trộn lẫn ấy.'
     },
     {
       slug: 'dang-khoa',
@@ -165,7 +165,7 @@
       palette: { petal: '#AEBBF3', petalDeep: '#5B6FD1', center: '#F6C945', glow: '#EEF1FD' },
       tagline: 'Rạng danh như tên trên bảng vàng',
       flowerMeaning: 'Hoa diên vĩ tượng trưng cho trí tuệ, niềm tin và hy vọng; sắc tím xanh thanh lịch hợp với ý nghĩa đỗ đạt, vinh danh trong tên Đăng Khoa.',
-      wish: 'Cái tên Đăng Khoa gợi nhớ đến chữ "đăng khoa" ngày xưa, khi người ta đỗ đạt và được vinh danh trên bảng vàng. Như đóa diên vĩ tượng trưng cho trí tuệ và niềm hy vọng, bạn luôn mang đến cho mọi người ở MindX cảm giác vững tin và được truyền cảm hứng. Chúc bạn một ngày 20/10 thật trọn vẹn, mọi mục tiêu đều sớm "đăng khoa", và luôn được yêu thương, trân trọng. Mong mỗi bước đi của bạn đều nhẹ nhàng và rạng rỡ.'
+      wish: 'Cái tên Đăng Khoa gợi nhớ đến chữ "đăng khoa" ngày xưa, khi người ta đỗ đạt và được vinh danh trên bảng vàng. Như đóa diên vĩ tượng trưng cho trí tuệ và niềm hy vọng, bạn luôn mang đến cho mọi người ở MindX Biên Hoà cảm giác vững tin và được truyền cảm hứng. Chúc bạn một ngày 20/10 thật trọn vẹn, mọi mục tiêu đều sớm "đăng khoa", và luôn được yêu thương, trân trọng. Mong mỗi bước đi của bạn đều nhẹ nhàng và rạng rỡ.'
     }
   ].map((recipient) => Object.freeze({ ...recipient, palette: Object.freeze({ ...recipient.palette }) }));
 

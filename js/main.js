@@ -164,7 +164,7 @@
   }
 
   function typeHeroLine() {
-    const text = 'Gửi những người phụ nữ tuyệt vời của MindX';
+    const text = 'Gửi những người phụ nữ tuyệt vời của MindX Biên Hoà';
     const target = elements['hero-typed'];
     window.clearTimeout(state.heroTimer);
     if (prefersReducedMotion()) {

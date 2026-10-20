@@ -370,6 +370,7 @@ main,
 
 .intro__title {
   position: relative;
+  text-wrap: balance;
   max-width: 14em;
   padding: 0.1em 0.2em;
   font-family: var(--font-script);
@@ -829,6 +830,7 @@ body.is-blooming .bouquet-sway {
 }
 
 .closing__title {
+  text-wrap: balance;
   font-family: var(--font-script);
   font-weight: 700;
   font-size: clamp(2.2rem, 8.5vw, 4rem);
