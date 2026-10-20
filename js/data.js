@@ -144,6 +144,28 @@
       tagline: 'Nhẹ nhàng, an nhiên như hoa baby',
       flowerMeaning: 'Hoa baby tượng trưng cho sự thuần khiết, tình cảm chân thành và hạnh phúc giản dị, nhẹ nhàng và thanh thản như tên Thanh Nhàn.',
       wish: 'Chúc Thanh Nhàn một ngày 20/10 đúng như cái tên của bạn: thật thanh thản và an nhiên giữa những bộn bề cuộc sống. Hoa baby nhỏ xinh, giản dị nhưng luôn khiến mọi bó hoa trở nên trọn vẹn, giống như cách bạn làm cho MindX thêm ấm áp. Mong bạn luôn tìm được sự cân bằng, những niềm vui bình dị và thật nhiều phút giây yên bình. Cảm ơn bạn vì đã luôn ở đây, làm cho mỗi ngày ở MindX thêm dịu dàng.'
+    },
+    {
+      slug: 'trung-duy',
+      photo: 'img/trung-duy.jpg',
+      name: 'Trung Duy',
+      flower: 'Hoa cẩm chướng',
+      flowerType: 'carnation',
+      palette: { petal: '#FFA48F', petalDeep: '#E5525E', center: '#FFD9C2', glow: '#FFF1EC' },
+      tagline: 'Duy nhất và không thể trộn lẫn',
+      flowerMeaning: 'Hoa cẩm chướng tượng trưng cho lòng biết ơn, sự ngưỡng mộ và tình cảm bền lâu; từng lớp cánh xếp nếp riêng biệt như nét "duy nhất" trong tên Trung Duy.',
+      wish: 'Chữ "Duy" trong tên Trung Duy khiến mình nghĩ ngay đến hai chữ "duy nhất", và quả thật ở MindX chẳng có ai giống bạn cả. Như đóa cẩm chướng mang ý nghĩa của lòng biết ơn, lá thư nhỏ này muốn cảm ơn bạn vì những điều tử tế bạn đã lặng lẽ mang đến cho mọi người. Chúc bạn một ngày 20/10 thật vui, luôn tự tin, rạng rỡ và được yêu thương đúng như bạn xứng đáng. Mong bạn mãi giữ được nét riêng không thể trộn lẫn ấy.'
+    },
+    {
+      slug: 'dang-khoa',
+      photo: 'img/dang-khoa.jpg',
+      name: 'Đăng Khoa',
+      flower: 'Hoa diên vĩ',
+      flowerType: 'iris',
+      palette: { petal: '#AEBBF3', petalDeep: '#5B6FD1', center: '#F6C945', glow: '#EEF1FD' },
+      tagline: 'Rạng danh như tên trên bảng vàng',
+      flowerMeaning: 'Hoa diên vĩ tượng trưng cho trí tuệ, niềm tin và hy vọng; sắc tím xanh thanh lịch hợp với ý nghĩa đỗ đạt, vinh danh trong tên Đăng Khoa.',
+      wish: 'Cái tên Đăng Khoa gợi nhớ đến chữ "đăng khoa" ngày xưa, khi người ta đỗ đạt và được vinh danh trên bảng vàng. Như đóa diên vĩ tượng trưng cho trí tuệ và niềm hy vọng, bạn luôn mang đến cho mọi người ở MindX cảm giác vững tin và được truyền cảm hứng. Chúc bạn một ngày 20/10 thật trọn vẹn, mọi mục tiêu đều sớm "đăng khoa", và luôn được yêu thương, trân trọng. Mong mỗi bước đi của bạn đều nhẹ nhàng và rạng rỡ.'
     }
   ].map((recipient) => Object.freeze({ ...recipient, palette: Object.freeze({ ...recipient.palette }) }));
 

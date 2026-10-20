@@ -242,6 +242,22 @@
         floret.append(svgEl('circle', { r: 1.3, fill: palette.center, class: 'flower-center' }));
         group.append(floret);
       });
+    },
+    carnation(group, palette, addPetal, fill) {
+      radial(addPetal, group, { count: 12, shape: 'notched', length: 41, width: 10, fill: palette.petalDeep, attrs: { opacity: 0.9 } });
+      radial(addPetal, group, { count: 10, shape: 'notched', length: 32, width: 10, fill, offset: 18, attrs: { stroke: palette.petalDeep, 'stroke-width': 0.6 } });
+      radial(addPetal, group, { count: 8, shape: 'notched', length: 21, width: 8, fill: palette.petal, offset: 9, attrs: { stroke: palette.petalDeep, 'stroke-width': 0.6 } });
+      group.append(svgEl('circle', { r: 4, fill: palette.petalDeep, class: 'flower-center' }));
+    },
+    iris(group, palette, addPetal, fill) {
+      [60, 180, 300].forEach((rotation) => addPetal(group, 'round', 44, 22, palette.petalDeep, rotation, { stroke: '#FFFFFF', 'stroke-width': 0.6 }));
+      [0, 120, 240].forEach((rotation) => addPetal(group, 'pointed', 38, 15, fill, rotation, { stroke: palette.petalDeep, 'stroke-width': 0.7 }));
+      [60, 180, 300].forEach((rotation) => {
+        const holder = svgEl('g', { transform: `rotate(${rotation})` });
+        holder.append(svgEl('path', { d: 'M0 -6 L0 -24', stroke: palette.center, 'stroke-width': 3.2, 'stroke-linecap': 'round', class: 'stamen' }));
+        group.append(holder);
+      });
+      group.append(svgEl('circle', { r: 4.5, fill: palette.center, class: 'flower-center' }));
     }
   };
 

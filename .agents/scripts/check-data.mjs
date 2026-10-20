@@ -9,8 +9,8 @@ const sandbox = { window: {} };
 vm.runInNewContext(source, sandbox);
 const app = sandbox.window.MindxGift;
 
-const expectedNames = ['Lan Anh', 'Tuyết Như', 'Trúc Ly', 'Vân Anh', 'Ánh', 'Anh Thư', 'Phương Mai', 'Thu Hương', 'Kim Dung', 'Ngọc Phát', 'Lan Thanh', 'Mỹ Duyên', 'Thanh Nhàn'];
-const expectedSlugs = ['lan-anh', 'tuyet-nhu', 'truc-ly', 'van-anh', 'anh', 'anh-thu', 'phuong-mai', 'thu-huong', 'kim-dung', 'ngoc-phat', 'lan-thanh', 'my-duyen', 'thanh-nhan'];
+const expectedNames = ['Lan Anh', 'Tuyết Như', 'Trúc Ly', 'Vân Anh', 'Ánh', 'Anh Thư', 'Phương Mai', 'Thu Hương', 'Kim Dung', 'Ngọc Phát', 'Lan Thanh', 'Mỹ Duyên', 'Thanh Nhàn', 'Trung Duy', 'Đăng Khoa'];
+const expectedSlugs = ['lan-anh', 'tuyet-nhu', 'truc-ly', 'van-anh', 'anh', 'anh-thu', 'phuong-mai', 'thu-huong', 'kim-dung', 'ngoc-phat', 'lan-thanh', 'my-duyen', 'thanh-nhan', 'trung-duy', 'dang-khoa'];
 
 let failures = 0;
 function check(label, condition) {
@@ -21,11 +21,11 @@ function check(label, condition) {
 const recipients = Array.from(app.recipients);
 const unique = (key) => new Set(recipients.map((recipient) => recipient[key])).size === recipients.length;
 
-check('exactly 13 recipients', recipients.length === 13);
+check('exactly 15 recipients', recipients.length === 15);
 check('names exact and ordered', JSON.stringify(recipients.map((r) => r.name)) === JSON.stringify(expectedNames));
 check('slugs exact and ordered', JSON.stringify(recipients.map((r) => r.slug)) === JSON.stringify(expectedSlugs));
 ['slug', 'flower', 'flowerType', 'tagline', 'wish', 'flowerMeaning', 'photo'].forEach((key) => check(`unique ${key}`, unique(key)));
-check('unique wish openings (first 3 words)', new Set(recipients.map((r) => r.wish.split(/\s+/).slice(0, 3).join(' '))).size === 13);
+check('unique wish openings (first 3 words)', new Set(recipients.map((r) => r.wish.split(/\s+/).slice(0, 3).join(' '))).size === recipients.length);
 const SENDER_PATTERN = /chúng mình|chúng tôi|cả nhà|gia đình|MindX gửi|gửi tặng|Từ MindX|MindX (?:chúc|muốn|trân trọng|xin)|Với tất cả/i;
 recipients.forEach((recipient) => {
   const text = [recipient.wish, recipient.tagline, recipient.flowerMeaning].join(' ');
