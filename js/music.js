@@ -22,7 +22,7 @@
   }
 
   function isPlaying() {
-    return Boolean(audio) && !audio.paused;
+    return Boolean(audio) && !audio.paused && !audio.muted;
   }
 
   function notify() {
@@ -69,25 +69,53 @@
     GESTURE_EVENTS.forEach((eventName) => document.removeEventListener(eventName, onGesture, GESTURE_OPTIONS));
   }
 
-  // Browsers usually reject unmuted playback until the first user gesture; a rejection just waits for that gesture.
+  function safePlay() {
+    try {
+      return Promise.resolve(audio.play());
+    } catch (error) {
+      return Promise.reject(error);
+    }
+  }
+
+  // Muted playback is always allowed, so the song is already buffered and running;
+  // the first gesture then only has to unmute it, which makes the sound start instantly.
+  function startMutedPreview() {
+    if (userPaused || !isSupported()) return;
+    audio.muted = true;
+    if (audio.paused) safePlay().catch(() => {});
+    waitForGesture();
+  }
+
+  function unmuteFromStart() {
+    stopWaitingForGesture();
+    audio.currentTime = 0;
+    audio.muted = false;
+    fadeIn();
+  }
+
+  // Browsers usually reject unmuted playback until the first user gesture; a rejection falls back to a muted preview.
   function play() {
     if (!isSupported()) return Promise.resolve(false);
+    if (!audio.paused && audio.muted) {
+      unmuteFromStart();
+      // Some browsers pause an element that is unmuted without user activation.
+      if (audio.paused) {
+        startMutedPreview();
+        return Promise.resolve(false);
+      }
+      return Promise.resolve(true);
+    }
     if (!audio.paused) return Promise.resolve(true);
     stopFade();
+    audio.muted = false;
     audio.volume = 0;
-    let playAttempt;
-    try {
-      playAttempt = audio.play();
-    } catch (error) {
-      playAttempt = Promise.reject(error);
-    }
-    return Promise.resolve(playAttempt).then(() => {
+    return safePlay().then(() => {
       stopWaitingForGesture();
       fadeIn();
       return true;
     }, () => {
-      // An earlier rejected attempt can settle after a later one already started, so only re-arm while still paused.
-      if (audio.paused && !userPaused && isSupported()) waitForGesture();
+      // An earlier rejected attempt can settle after a later one already started, so only fall back while still paused.
+      if (audio.paused && !userPaused) startMutedPreview();
       return false;
     });
   }
@@ -110,6 +138,7 @@
     stopWaitingForGesture();
     stopFade();
     audio.pause();
+    audio.muted = false;
   }
 
   function toggle() {
@@ -119,7 +148,7 @@
 
   if (audio) {
     audio.loop = true;
-    ['play', 'pause', 'ended', 'error'].forEach((eventName) => audio.addEventListener(eventName, notify));
+    ['play', 'pause', 'ended', 'error', 'volumechange'].forEach((eventName) => audio.addEventListener(eventName, notify));
     audio.addEventListener('error', stopWaitingForGesture);
     // Safety net in case a browser ignores `loop`.
     audio.addEventListener('ended', () => {

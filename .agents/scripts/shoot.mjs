@@ -13,8 +13,7 @@ const BASE = process.env.BASE_URL || 'http://127.0.0.1:8765/index.html';
 const FILE_URL = `file://${path.join(ROOT, 'index.html')}`;
 const DEBUG_PORT = 9333;
 const LETTER_SIGN = '— Từ một người luôn trân trọng bạn —';
-const CLOSING_SIGN = '— Một người giấu tên, mãi trân trọng các bạn —';
-const MESSAGE_SIGN = '— Một người giấu tên —';
+const CLOSING_SIGN = '— Mãi trân trọng các bạn —';
 const SENDER_PATTERN = /chúng mình|chúng tôi|cả nhà|MindX gửi|gửi tặng|Từ MindX|, MindX —|Với tất cả/i;
 const AUDIO_PATH = 'audio/youll-be-in-my-heart.m4a';
 
@@ -342,7 +341,7 @@ async function runMainFlow(viewportName) {
   await sleep(1200);
   await screenshot(viewportName, '09-closing');
   const closingText = await evaluate("document.getElementById('section-closing').textContent + document.querySelector('.footer').textContent");
-  check('closing lines present', closingText.includes('Cảm ơn vì đã là một phần tuyệt vời của MindX') && closingText.includes(CLOSING_SIGN) && (await evaluate("document.querySelector('.message__sign').textContent")) === MESSAGE_SIGN && closingText.includes('20.10.2026'));
+  check('closing lines present', closingText.includes('Cảm ơn vì đã là một phần tuyệt vời của MindX') && closingText.includes(CLOSING_SIGN) && !(await evaluate("/giấu tên|không ký tên/.test(document.body.textContent + document.title)")) && closingText.includes('20.10.2026'));
 
   scenarioLabel = `${viewportName} m-fonts`;
   const fonts = await evaluate(`({

@@ -55,7 +55,7 @@
       palette: { petal: '#FFC93C', petalDeep: '#F29E1F', center: '#7A4A1E', glow: '#FFF1C9' },
       tagline: 'Rạng rỡ như ánh nắng ban mai',
       flowerMeaning: 'Hướng dương là biểu tượng của niềm tin, sự lạc quan và lòng trung thành, luôn hướng về phía mặt trời như chính ánh sáng trong tên Ánh.',
-      wish: 'Ánh à, đúng như tên gọi, bạn là một nguồn sáng thật ấm áp ở MindX. Hướng dương luôn quay về phía mặt trời, và mỗi lần ở cạnh bạn, mình cũng thấy bản thân hướng về những điều tích cực hơn. Nhân ngày đặc biệt này, chúc bạn luôn khỏe mạnh, rạng rỡ và đón nhận thật nhiều niềm vui. Cảm ơn bạn vì đã thắp sáng những ngày làm việc của mọi người, và của cả một người giấu tên nữa.'
+      wish: 'Ánh à, đúng như tên gọi, bạn là một nguồn sáng thật ấm áp ở MindX. Hướng dương luôn quay về phía mặt trời, và mỗi lần ở cạnh bạn, mình cũng thấy bản thân hướng về những điều tích cực hơn. Nhân ngày đặc biệt này, chúc bạn luôn khỏe mạnh, rạng rỡ và đón nhận thật nhiều niềm vui. Cảm ơn bạn vì đã thắp sáng những ngày làm việc của mọi người xung quanh.'
     },
     {
       slug: 'anh-thu',
@@ -110,7 +110,7 @@
       palette: { petal: '#F8BBD0', petalDeep: '#EC407A', center: '#FFE066', glow: '#FDEFF4' },
       tagline: 'Sáng trong như ngọc, an yên như sen',
       flowerMeaning: 'Hoa sen là quốc hoa của Việt Nam, biểu tượng của sự thanh khiết, an yên và sức vươn lên bền bỉ, chúc Ngọc Phát luôn sáng trong và phát triển.',
-      wish: 'Hôm nay, có một lá thư nhỏ không ký tên tìm đến Ngọc Phát, mang theo những lời chúc chân thành nhất. Như viên ngọc sáng trong và đóa sen an yên giữa đầm, bạn mang đến cho mọi người cảm giác tin cậy và dễ chịu. Chúc bạn luôn khỏe mạnh, mọi dự định đều phát triển và khởi sắc từng ngày. Mong mỗi ngày đến với bạn đều là một ngày đáng nhớ.'
+      wish: 'Hôm nay, có một lá thư nhỏ tìm đến Ngọc Phát, mang theo những lời chúc chân thành nhất. Như viên ngọc sáng trong và đóa sen an yên giữa đầm, bạn mang đến cho mọi người cảm giác tin cậy và dễ chịu. Chúc bạn luôn khỏe mạnh, mọi dự định đều phát triển và khởi sắc từng ngày. Mong mỗi ngày đến với bạn đều là một ngày đáng nhớ.'
     },
     {
       slug: 'lan-thanh',

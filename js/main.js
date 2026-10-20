@@ -519,6 +519,8 @@
       elements['music-dock'].hidden = true;
       return;
     }
+    // The dock stays hidden until sound really plays, so a browser autoplay block never shows a "muted" icon.
+    if (playing) elements['music-dock'].hidden = false;
     const toggle = elements['music-toggle'];
     toggle.setAttribute('aria-pressed', String(playing));
     toggle.setAttribute('aria-label', playing ? 'Tắt nhạc nền' : 'Bật nhạc nền');
@@ -536,7 +538,6 @@
 
   function setupMusic() {
     if (!app.music.isSupported()) return;
-    elements['music-dock'].hidden = false;
     elements['music-toggle'].addEventListener('click', () => app.music.toggle());
     app.music.onChange(updateMusicUi);
     app.music.autoplay();

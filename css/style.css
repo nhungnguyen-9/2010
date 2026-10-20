@@ -389,6 +389,12 @@ main,
   margin-top: 10px;
 }
 
+.intro__hint {
+  position: relative;
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+}
+
 /* Hero */
 .hero {
   position: relative;
