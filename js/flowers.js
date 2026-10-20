@@ -258,6 +258,14 @@
         group.append(holder);
       });
       group.append(svgEl('circle', { r: 4.5, fill: palette.center, class: 'flower-center' }));
+    },
+    peony(group, palette, addPetal, fill) {
+      radial(addPetal, group, { count: 10, shape: 'round', length: 44, width: 20, fill: palette.petalDeep, attrs: { opacity: 0.9 } });
+      radial(addPetal, group, { count: 9, shape: 'round', length: 36, width: 20, fill, offset: 20, attrs: { stroke: palette.petalDeep, 'stroke-width': 0.6 } });
+      radial(addPetal, group, { count: 8, shape: 'round', length: 27, width: 16, fill: palette.petal, offset: 10, attrs: { stroke: palette.petalDeep, 'stroke-width': 0.6 } });
+      radial(addPetal, group, { count: 6, shape: 'round', length: 17, width: 12, fill: palette.petalDeep, offset: 30, attrs: { opacity: 0.85 } });
+      addStamens(group, 10, 7, palette.center, '#E9A93A');
+      group.append(svgEl('circle', { r: 3, fill: palette.center, class: 'flower-center' }));
     }
   };
 

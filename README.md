@@ -68,6 +68,7 @@ Ví dụ: `https://<tên-miền>/?to=tuyet-nhu`
 | Thanh Nhàn | `?to=thanh-nhan` |
 | Trung Duy | `?to=trung-duy` |
 | Đăng Khoa | `?to=dang-khoa` |
+<!-- | Hồng Nhung | `?to=hong-nhung` | -->
 
 - Dạng `#<mã>` cũng dùng được, ví dụ `https://<tên-miền>/#my-duyen`.
 - Mã không có trong danh sách (ví dụ `?to=abc`) sẽ hiển thị trang chung, không báo lỗi.

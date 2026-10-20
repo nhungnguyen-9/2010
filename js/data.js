@@ -167,6 +167,19 @@
       flowerMeaning: 'Hoa diên vĩ tượng trưng cho trí tuệ, niềm tin và hy vọng; sắc tím xanh thanh lịch hợp với ý nghĩa đỗ đạt, vinh danh trong tên Đăng Khoa.',
       wish: 'Cái tên Đăng Khoa gợi nhớ đến chữ "đăng khoa" ngày xưa, khi người ta đỗ đạt và được vinh danh trên bảng vàng. Như đóa diên vĩ tượng trưng cho trí tuệ và niềm hy vọng, bạn luôn mang đến cho mọi người ở MindX Biên Hoà cảm giác vững tin và được truyền cảm hứng. Chúc bạn một ngày 20/10 thật trọn vẹn, mọi mục tiêu đều sớm "đăng khoa", và luôn được yêu thương, trân trọng. Mong mỗi bước đi của bạn đều nhẹ nhàng và rạng rỡ.'
     }
+    /* Hồng Nhung: tạm ẩn
+    ,{
+      slug: 'hong-nhung',
+      photo: 'img/hong-nhung.jpg',
+      name: 'Hồng Nhung',
+      flower: 'Hoa mẫu đơn',
+      flowerType: 'peony',
+      palette: { petal: '#F28BA8', petalDeep: '#B3264F', center: '#FFD27A', glow: '#FDEBF0' },
+      tagline: 'Mềm mại như nhung, kiêu sa như mẫu đơn',
+      flowerMeaning: 'Hoa mẫu đơn được mệnh danh là vua của các loài hoa, tượng trưng cho vẻ đẹp kiêu sa, phú quý và hạnh phúc viên mãn; từng lớp cánh mềm mượt như nhung trong tên Hồng Nhung.',
+      wish: 'Nghe tên Hồng Nhung, mình lại nghĩ đến sắc hồng thắm và sự mềm mại như nhung, vừa dịu dàng vừa có nét kiêu sa rất riêng. Như đóa mẫu đơn nở rộ từng lớp cánh, bạn càng gần càng thấy nhiều điều đáng quý. Chúc bạn một ngày 20/10 thật rực rỡ, luôn xinh đẹp, bình an và có thật nhiều niềm vui ở MindX Biên Hoà. Mong mọi điều tốt đẹp nhất sẽ nở hoa trên con đường bạn đi.'
+    }
+    */
   ].map((recipient) => Object.freeze({ ...recipient, palette: Object.freeze({ ...recipient.palette }) }));
 
   const recipientsBySlug = new Map(recipients.map((recipient) => [recipient.slug, recipient]));
